@@ -5,11 +5,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.truizlop.gildedrose.GildedRoseTest.ItemBuilder.anItem;
+import static com.truizlop.gildedrose.ItemType.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class GildedRoseTest {
-    private static final String ANY_NAME = "Any name";
+    private static final ItemType ANY_NAME = DEXTERITY_VEST;
     private static final int ANY_SELL_IN = 3;
     private static final int ANY_QUALITY = 15;
     private static final int EXPIRED_SELL_IN = -1;
@@ -59,7 +60,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldIncreaseAgedBrieQuality() {
-        Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(10).build();
+        Item agedBrie = anItem().withName(AGED_BRIE).withQuality(20).withSellIn(10).build();
 
         gildedRose.updateItem(agedBrie);
 
@@ -68,7 +69,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldIncreaseExpiredAgedBrieQualityTwiceAsFast() {
-        Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(EXPIRED_SELL_IN).build();
+        Item agedBrie = anItem().withName(AGED_BRIE).withQuality(20).withSellIn(EXPIRED_SELL_IN).build();
 
         gildedRose.updateItem(agedBrie);
 
@@ -77,7 +78,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldNotIncreaseQualityAbove50() {
-        Item agedBrie = anItem().withName("Aged Brie").withQuality(50).withSellIn(ANY_SELL_IN).build();
+        Item agedBrie = anItem().withName(AGED_BRIE).withQuality(50).withSellIn(ANY_SELL_IN).build();
 
         gildedRose.updateItem(agedBrie);
 
@@ -86,7 +87,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldNotUpdateSellInForSulfuras() {
-        Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(ANY_QUALITY).withSellIn(10).build();
+        Item sulfuras = anItem().withName(SULFURAS).withQuality(ANY_QUALITY).withSellIn(10).build();
 
         gildedRose.updateItem(sulfuras);
 
@@ -95,7 +96,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldNotUpdateQualityForSulfuras() {
-        Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(5).withSellIn(ANY_SELL_IN).build();
+        Item sulfuras = anItem().withName(SULFURAS).withQuality(5).withSellIn(ANY_SELL_IN).build();
 
         gildedRose.updateItem(sulfuras);
 
@@ -104,7 +105,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldIncreaseBackstageQualityByOne(){
-        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(15).build();
+        Item backstage = anItem().withName(BACKSTAGE).withQuality(10).withSellIn(15).build();
 
         gildedRose.updateItem(backstage);
 
@@ -113,7 +114,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldIncreaseBackstageQualityByTwoWhenLessThan10DaysToSell(){
-        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(9).build();
+        Item backstage = anItem().withName(BACKSTAGE).withQuality(10).withSellIn(9).build();
 
         gildedRose.updateItem(backstage);
 
@@ -122,7 +123,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldIncreaseBackstageQualityByThreeWhenLessThan6DaysToSell(){
-        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(3).build();
+        Item backstage = anItem().withName(BACKSTAGE).withQuality(10).withSellIn(3).build();
 
         gildedRose.updateItem(backstage);
 
@@ -131,7 +132,7 @@ public class GildedRoseTest {
 
     @Test
     public void shouldDropBackstageQualityToZeroWhenExpires(){
-        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(EXPIRED_SELL_IN).build();
+        Item backstage = anItem().withName(BACKSTAGE).withQuality(10).withSellIn(EXPIRED_SELL_IN).build();
 
         gildedRose.updateItem(backstage);
 
@@ -141,7 +142,7 @@ public class GildedRoseTest {
     @Ignore("Feature requested")
     @Test
     public void shouldDecreaseConjuredQualityByTwo(){
-        Item conjured = anItem().withName("Conjured Mana Cake").withQuality(10).withSellIn(ANY_SELL_IN).build();
+        Item conjured = anItem().withName(CONJURED).withQuality(10).withSellIn(ANY_SELL_IN).build();
 
         gildedRose.updateItem(conjured);
 
@@ -149,7 +150,7 @@ public class GildedRoseTest {
     }
 
     static class ItemBuilder{
-        private String name;
+        private ItemType name;
         private int sellIn;
         private int quality;
 
@@ -159,7 +160,7 @@ public class GildedRoseTest {
             return new ItemBuilder();
         }
 
-        public ItemBuilder withName(String name){
+        public ItemBuilder withName(ItemType name){
             this.name = name;
             return this;
         }

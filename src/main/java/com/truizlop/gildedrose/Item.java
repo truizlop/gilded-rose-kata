@@ -1,22 +1,19 @@
 package com.truizlop.gildedrose;
 
 public class Item {
-    public String name;
+    public ItemType name;
     public int sellIn;
     public int quality;
 
-    public Item(String name, int sellIn, int quality) {
+    public Item(ItemType name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
     }
 
     /* Generated getter and setter code */
-    public String getName() {
+    public ItemType getName() {
         return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
     public int getSellIn() {
         return sellIn;

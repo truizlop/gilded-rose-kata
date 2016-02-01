@@ -3,6 +3,8 @@ package com.truizlop.gildedrose;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.truizlop.gildedrose.ItemType.*;
+
 /*
  Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a prominent city ran by
  a friendly innkeeper named Allison. We also buy and sell only the finest goods. Unfortunately, our goods are
@@ -50,12 +52,12 @@ public class GildedRose {
         System.out.println("OMGHAI!");
 
         items = new ArrayList<>();
-        items.add(new Item("+5 Dexterity Vest", 10, 20));
-        items.add(new Item("Aged Brie", 2, 0));
-        items.add(new Item("Elixir of the Mongoose", 5, 7));
-        items.add(new Item("Sulfuras, Hand of Ragnaros", 0, 80));
-        items.add(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
-        items.add(new Item("Conjured Mana Cake", 3, 6));
+        items.add(new Item(DEXTERITY_VEST, 10, 20));
+        items.add(new Item(AGED_BRIE, 2, 0));
+        items.add(new Item(ELIXIR_MONGOOSE, 5, 7));
+        items.add(new Item(SULFURAS, 0, 80));
+        items.add(new Item(BACKSTAGE, 15, 20));
+        items.add(new Item(CONJURED, 3, 6));
 
         GildedRose gildedRose = new GildedRose();
         gildedRose.updateQuality(items);
@@ -82,7 +84,7 @@ public class GildedRose {
     }
 
     private boolean qualityDropsToZeroWhenExpired(Item item) {
-        return "Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+        return BACKSTAGE.equals(item.getName());
     }
 
     private void increaseItemQuality(Item item) {
@@ -111,7 +113,7 @@ public class GildedRose {
     }
 
     private boolean qualityIncreasesAsSellInDateApproaches(Item item) {
-        return "Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+        return BACKSTAGE.equals(item.getName());
     }
 
     private void decreaseItemQuality(Item item) {
@@ -124,11 +126,11 @@ public class GildedRose {
     }
 
     private boolean shouldUpdateItem(Item item) {
-        return !"Sulfuras, Hand of Ragnaros".equals(item.getName());
+        return !SULFURAS.equals(item.getName());
     }
 
     private boolean qualityDecreasesAsItAges(Item item) {
-        return !"Aged Brie".equals(item.getName()) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+        return !AGED_BRIE.equals(item.getName()) && !BACKSTAGE.equals(item.getName());
     }
 
     private void updateSellIn(Item item) {
