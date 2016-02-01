@@ -25,7 +25,7 @@ public class GildedRoseTest {
     public void shouldNotDegradeQualityLowerThanZero() {
         Item anyItem = anItem().withName(ANY_NAME).withQuality(0).withSellIn(ANY_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(anyItem);
+        gildedRose.updateItem(anyItem);
 
         assertThat(anyItem.getQuality(), is(0));
     }
@@ -34,7 +34,7 @@ public class GildedRoseTest {
     public void shouldDegradeQualityForAnyItem() {
         Item anyItem = anItem().withName(ANY_NAME).withQuality(5).withSellIn(ANY_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(anyItem);
+        gildedRose.updateItem(anyItem);
 
         assertThat(anyItem.getQuality(), is(4));
     }
@@ -43,7 +43,7 @@ public class GildedRoseTest {
     public void shouldDegradeTwiceAsFastAfterExpires(){
         Item anyItem = anItem().withName(ANY_NAME).withQuality(5).withSellIn(EXPIRED_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(anyItem);
+        gildedRose.updateItem(anyItem);
 
         assertThat(anyItem.getQuality(), is(3));
     }
@@ -52,7 +52,7 @@ public class GildedRoseTest {
     public void shouldDecreaseSellIn(){
         Item anyItem = anItem().withName(ANY_NAME).withQuality(ANY_QUALITY).withSellIn(5).build();
 
-        gildedRose.updateQualityForItem(anyItem);
+        gildedRose.updateItem(anyItem);
 
         assertThat(anyItem.getSellIn(), is(4));
     }
@@ -61,7 +61,7 @@ public class GildedRoseTest {
     public void shouldIncreaseAgedBrieQuality() {
         Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(10).build();
 
-        gildedRose.updateQualityForItem(agedBrie);
+        gildedRose.updateItem(agedBrie);
 
         assertThat(agedBrie.getQuality(), is(21));
     }
@@ -70,7 +70,7 @@ public class GildedRoseTest {
     public void shouldIncreaseExpiredAgedBrieQualityTwiceAsFast() {
         Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(EXPIRED_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(agedBrie);
+        gildedRose.updateItem(agedBrie);
 
         assertThat(agedBrie.getQuality(), is(22));
     }
@@ -79,7 +79,7 @@ public class GildedRoseTest {
     public void shouldNotIncreaseQualityAbove50() {
         Item agedBrie = anItem().withName("Aged Brie").withQuality(50).withSellIn(ANY_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(agedBrie);
+        gildedRose.updateItem(agedBrie);
 
         assertThat(agedBrie.getQuality(), is(50));
     }
@@ -88,7 +88,7 @@ public class GildedRoseTest {
     public void shouldNotUpdateSellInForSulfuras() {
         Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(ANY_QUALITY).withSellIn(10).build();
 
-        gildedRose.updateQualityForItem(sulfuras);
+        gildedRose.updateItem(sulfuras);
 
         assertThat(sulfuras.getSellIn(), is(10));
     }
@@ -97,7 +97,7 @@ public class GildedRoseTest {
     public void shouldNotUpdateQualityForSulfuras() {
         Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(5).withSellIn(ANY_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(sulfuras);
+        gildedRose.updateItem(sulfuras);
 
         assertThat(sulfuras.getQuality(), is(5));
     }
@@ -106,7 +106,7 @@ public class GildedRoseTest {
     public void shouldIncreaseBackstageQualityByOne(){
         Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(15).build();
 
-        gildedRose.updateQualityForItem(backstage);
+        gildedRose.updateItem(backstage);
 
         assertThat(backstage.getQuality(), is(11));
     }
@@ -115,7 +115,7 @@ public class GildedRoseTest {
     public void shouldIncreaseBackstageQualityByTwoWhenLessThan10DaysToSell(){
         Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(9).build();
 
-        gildedRose.updateQualityForItem(backstage);
+        gildedRose.updateItem(backstage);
 
         assertThat(backstage.getQuality(), is(12));
     }
@@ -124,7 +124,7 @@ public class GildedRoseTest {
     public void shouldIncreaseBackstageQualityByThreeWhenLessThan6DaysToSell(){
         Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(3).build();
 
-        gildedRose.updateQualityForItem(backstage);
+        gildedRose.updateItem(backstage);
 
         assertThat(backstage.getQuality(), is(13));
     }
@@ -133,7 +133,7 @@ public class GildedRoseTest {
     public void shouldDropBackstageQualityToZeroWhenExpires(){
         Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(EXPIRED_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(backstage);
+        gildedRose.updateItem(backstage);
 
         assertThat(backstage.getQuality(), is(0));
     }
@@ -143,7 +143,7 @@ public class GildedRoseTest {
     public void shouldDecreaseConjuredQualityByTwo(){
         Item conjured = anItem().withName("Conjured Mana Cake").withQuality(10).withSellIn(ANY_SELL_IN).build();
 
-        gildedRose.updateQualityForItem(conjured);
+        gildedRose.updateItem(conjured);
 
         assertThat(conjured.getQuality(), is(8));
     }
