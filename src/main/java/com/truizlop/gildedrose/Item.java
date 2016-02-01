@@ -27,7 +27,23 @@ public class Item {
     public int getQuality() {
         return quality;
     }
-    public void setQuality(int quality) {
-        this.quality = quality;
+    private void setQuality(int quality) {
+        this.quality = Math.max(0, Math.min(quality, 50));
+    }
+
+    public void increaseQualityBy(int factor) {
+        setQuality(getQuality() + factor);
+    }
+
+    public void decreaseQualityBy(int factor) {
+        setQuality(getQuality() - factor);
+    }
+
+    public boolean isExpired() {
+        return getSellIn() < 0;
+    }
+
+    public void dropQualityToZero() {
+        setQuality(0);
     }
 }

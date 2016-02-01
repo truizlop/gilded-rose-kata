@@ -85,17 +85,13 @@ public class GildedRose {
         return "Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
     }
 
-    private void dropQualityToZero(Item item) {
-        item.setQuality(0);
-    }
-
     private void increaseItemQuality(Item item) {
-        increaseQualityBy(item, qualityIncrementBasedOnSellIn(item));
-        if(isExpired(item)){
+        item.increaseQualityBy(qualityIncrementBasedOnSellIn(item));
+        if(item.isExpired()){
             if (qualityDropsToZeroWhenExpired(item)) {
-                dropQualityToZero(item);
+                item.dropQualityToZero();
             }else{
-                increaseQualityBy(item, 1);
+                item.increaseQualityBy(1);
             }
         }
     }
@@ -120,9 +116,9 @@ public class GildedRose {
 
     private void decreaseItemQuality(Item item) {
         if (shouldUpdateItem(item)) {
-            decreaseQualityBy(item, 1);
-            if(isExpired(item)){
-                decreaseQualityBy(item, 1);
+            item.decreaseQualityBy(1);
+            if(item.isExpired()){
+                item.decreaseQualityBy(1);
             }
         }
     }
@@ -133,18 +129,6 @@ public class GildedRose {
 
     private boolean qualityDecreasesAsItAges(Item item) {
         return !"Aged Brie".equals(item.getName()) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
-    }
-
-    private boolean isExpired(Item item) {
-        return item.getSellIn() < 0;
-    }
-
-    private void increaseQualityBy(Item item, int factor) {
-        item.setQuality(Math.min(item.getQuality() + factor, 50));
-    }
-
-    private void decreaseQualityBy(Item item, int factor) {
-        item.setQuality(Math.max(item.getQuality() - factor, 0));
     }
 
     private void updateSellIn(Item item) {
