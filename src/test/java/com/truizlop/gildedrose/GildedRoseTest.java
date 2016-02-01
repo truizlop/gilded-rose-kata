@@ -1,0 +1,173 @@
+package com.truizlop.gildedrose;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
+import static com.truizlop.gildedrose.GildedRoseTest.ItemBuilder.anItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
+public class GildedRoseTest {
+    private static final String ANY_NAME = "Any name";
+    private static final int ANY_SELL_IN = 3;
+    private static final int ANY_QUALITY = 15;
+    private static final int EXPIRED_SELL_IN = -1;
+
+    @Test
+    public void shouldNotDegradeQualityLowerThanZero() {
+        Item anyItem = anItem().withName(ANY_NAME).withQuality(0).withSellIn(ANY_SELL_IN).build();
+
+        GildedRose.updateQuality(anyItem);
+
+        assertThat(anyItem.getQuality(), is(0));
+    }
+
+    @Test
+    public void shouldDegradeQualityForAnyItem() {
+        Item anyItem = anItem().withName(ANY_NAME).withQuality(5).withSellIn(ANY_SELL_IN).build();
+
+        GildedRose.updateQuality(anyItem);
+
+        assertThat(anyItem.getQuality(), is(4));
+    }
+
+    @Test
+    public void shouldDegradeTwiceAsFastAfterExpires(){
+        Item anyItem = anItem().withName(ANY_NAME).withQuality(5).withSellIn(EXPIRED_SELL_IN).build();
+
+        GildedRose.updateQuality(anyItem);
+
+        assertThat(anyItem.getQuality(), is(3));
+    }
+
+    @Test
+    public void shouldDecreaseSellIn(){
+        Item anyItem = anItem().withName(ANY_NAME).withQuality(ANY_QUALITY).withSellIn(5).build();
+
+        GildedRose.updateQuality(anyItem);
+
+        assertThat(anyItem.getSellIn(), is(4));
+    }
+
+    @Test
+    public void shouldIncreaseAgedBrieQuality() {
+        Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(10).build();
+
+        GildedRose.updateQuality(agedBrie);
+
+        assertThat(agedBrie.getQuality(), is(21));
+    }
+
+    @Test
+    public void shouldIncreaseExpiredAgedBrieQualityTwiceAsFast() {
+        Item agedBrie = anItem().withName("Aged Brie").withQuality(20).withSellIn(EXPIRED_SELL_IN).build();
+
+        GildedRose.updateQuality(agedBrie);
+
+        assertThat(agedBrie.getQuality(), is(22));
+    }
+
+    @Test
+    public void shouldNotIncreaseQualityAbove50() {
+        Item agedBrie = anItem().withName("Aged Brie").withQuality(50).withSellIn(ANY_SELL_IN).build();
+
+        GildedRose.updateQuality(agedBrie);
+
+        assertThat(agedBrie.getQuality(), is(50));
+    }
+
+    @Test
+    public void shouldNotUpdateSellInForSulfuras() {
+        Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(ANY_QUALITY).withSellIn(10).build();
+
+        GildedRose.updateQuality(sulfuras);
+
+        assertThat(sulfuras.getSellIn(), is(10));
+    }
+
+    @Test
+    public void shouldNotUpdateQualityForSulfuras() {
+        Item sulfuras = anItem().withName("Sulfuras, Hand of Ragnaros").withQuality(5).withSellIn(ANY_SELL_IN).build();
+
+        GildedRose.updateQuality(sulfuras);
+
+        assertThat(sulfuras.getQuality(), is(5));
+    }
+
+    @Test
+    public void shouldIncreaseBackstageQualityByOne(){
+        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(15).build();
+
+        GildedRose.updateQuality(backstage);
+
+        assertThat(backstage.getQuality(), is(11));
+    }
+
+    @Test
+    public void shouldIncreaseBackstageQualityByTwoWhenLessThan10DaysToSell(){
+        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(9).build();
+
+        GildedRose.updateQuality(backstage);
+
+        assertThat(backstage.getQuality(), is(12));
+    }
+
+    @Test
+    public void shouldIncreaseBackstageQualityByThreeWhenLessThan6DaysToSell(){
+        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(3).build();
+
+        GildedRose.updateQuality(backstage);
+
+        assertThat(backstage.getQuality(), is(13));
+    }
+
+    @Test
+    public void shouldDropBackstageQualityToZeroWhenExpires(){
+        Item backstage = anItem().withName("Backstage passes to a TAFKAL80ETC concert").withQuality(10).withSellIn(EXPIRED_SELL_IN).build();
+
+        GildedRose.updateQuality(backstage);
+
+        assertThat(backstage.getQuality(), is(0));
+    }
+
+    @Ignore("Feature requested")
+    @Test
+    public void shouldDecreaseConjuredQualityByTwo(){
+        Item conjured = anItem().withName("Conjured Mana Cake").withQuality(10).withSellIn(ANY_SELL_IN).build();
+
+        GildedRose.updateQuality(conjured);
+
+        assertThat(conjured.getQuality(), is(8));
+    }
+
+    static class ItemBuilder{
+        private String name;
+        private int sellIn;
+        private int quality;
+
+        public ItemBuilder(){}
+
+        public static ItemBuilder anItem(){
+            return new ItemBuilder();
+        }
+
+        public ItemBuilder withName(String name){
+            this.name = name;
+            return this;
+        }
+
+        public ItemBuilder withQuality(int quality){
+            this.quality = quality;
+            return this;
+        }
+
+        public ItemBuilder withSellIn(int sellIn){
+            this.sellIn = sellIn;
+            return this;
+        }
+
+        public Item build(){
+            return new Item(name, sellIn, quality);
+        }
+    }
+}
