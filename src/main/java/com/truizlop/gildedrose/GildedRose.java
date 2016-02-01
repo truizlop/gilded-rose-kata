@@ -55,10 +55,10 @@ public class GildedRose {
         items.add(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
         items.add(new Item("Conjured Mana Cake", 3, 6));
 
-        updateQuality();
+        updateQuality(items);
     }
 
-    public static void updateQuality() {
+    public static void updateQuality(List<Item> items) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getName() != "Aged Brie" && items.get(i).getName() != "Backstage passes to a TAFKAL80ETC concert") {
                 if (items.get(i).getQuality() > 0) {
