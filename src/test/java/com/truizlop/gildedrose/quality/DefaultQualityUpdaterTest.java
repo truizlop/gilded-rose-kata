@@ -40,4 +40,13 @@ public class DefaultQualityUpdaterTest {
 
         assertThat(item.getQuality(), is(8));
     }
+
+    @Test
+    public void shouldNotDecreaseQualityLowerThanZero(){
+        Item item = anItem().withName(ANY_NAME).withQuality(0).withSellIn(ANY_SELL_IN).build();
+
+        qualityUpdater.update(item);
+
+        assertThat(item.getQuality(), is(0));
+    }
 }
