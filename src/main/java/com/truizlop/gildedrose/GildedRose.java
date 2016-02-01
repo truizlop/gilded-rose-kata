@@ -55,16 +55,17 @@ public class GildedRose {
         items.add(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
         items.add(new Item("Conjured Mana Cake", 3, 6));
 
-        updateQuality(items);
+        GildedRose gildedRose = new GildedRose();
+        gildedRose.updateQuality(items);
     }
 
-    public static void updateQuality(List<Item> items) {
+    public void updateQuality(List<Item> items) {
         for (Item item : items) {
-            updateQuality(item);
+            updateQualityForItem(item);
         }
     }
 
-    public static void updateQuality(Item item) {
+    public void updateQualityForItem(Item item) {
         if (!"Aged Brie".equals(item.getName()) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
             if (item.getQuality() > 0) {
                 if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
