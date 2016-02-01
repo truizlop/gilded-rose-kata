@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static com.truizlop.gildedrose.GildedRoseTest.ItemBuilder.anItem;
+import static com.truizlop.gildedrose.ItemBuilder.anItem;
 import static com.truizlop.gildedrose.ItemType.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -149,34 +149,4 @@ public class GildedRoseTest {
         assertThat(conjured.getQuality(), is(8));
     }
 
-    static class ItemBuilder{
-        private ItemType name;
-        private int sellIn;
-        private int quality;
-
-        public ItemBuilder(){}
-
-        public static ItemBuilder anItem(){
-            return new ItemBuilder();
-        }
-
-        public ItemBuilder withName(ItemType name){
-            this.name = name;
-            return this;
-        }
-
-        public ItemBuilder withQuality(int quality){
-            this.quality = quality;
-            return this;
-        }
-
-        public ItemBuilder withSellIn(int sellIn){
-            this.sellIn = sellIn;
-            return this;
-        }
-
-        public Item build(){
-            return new Item(name, sellIn, quality);
-        }
-    }
 }
