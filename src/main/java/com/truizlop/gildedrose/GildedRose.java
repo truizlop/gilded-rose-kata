@@ -41,6 +41,8 @@ import java.util.List;
  */
 public class GildedRose {
 
+    public static final int FIVE_DAYS = 5;
+    public static final int TEN_DAYS = 10;
     private static List<Item> items = null;
 
     public static void main(String[] args) {
@@ -71,55 +73,86 @@ public class GildedRose {
     }
 
     private void updateQuality(Item item) {
-        if (!"Aged Brie".equals(item.getName()) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
-            if (item.getQuality() > 0) {
-                if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
-                    item.setQuality(item.getQuality() - 1);
-                }
-            }
+        if (qualityDecreasesAsItAges(item)) {
+            decreaseItemQuality(item);
         } else {
-            if (item.getQuality() < 50) {
-                item.setQuality(item.getQuality() + 1);
+            increaseItemQuality(item);
 
-                if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
-                    if (item.getSellIn() < 11) {
-                        if (item.getQuality() < 50) {
-                            item.setQuality(item.getQuality() + 1);
-                        }
-                    }
-
-                    if (item.getSellIn() < 6) {
-                        if (item.getQuality() < 50) {
-                            item.setQuality(item.getQuality() + 1);
-                        }
-                    }
-                }
-            }
         }
+    }
 
-        if (item.getSellIn() < 0) {
-            if (!"Aged Brie".equals(item.getName())) {
-                if (!"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
-                    if (item.getQuality() > 0) {
-                        if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
-                            item.setQuality(item.getQuality() - 1);
-                        }
-                    }
-                } else {
-                    item.setQuality(0);
-                }
-            } else {
-                if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
-                }
+    private boolean qualityDropsToZeroWhenExpired(Item item) {
+        return "Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+    }
+
+    private void dropQualityToZero(Item item) {
+        item.setQuality(0);
+    }
+
+    private void increaseItemQuality(Item item) {
+        increaseQualityBy(item, qualityIncrementBasedOnSellIn(item));
+        if(isExpired(item)){
+            if (qualityDropsToZeroWhenExpired(item)) {
+                dropQualityToZero(item);
+            }else{
+                increaseQualityBy(item, 1);
             }
         }
     }
 
-    private void updateSellIn(Item item) {
-        if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
-            item.setSellIn(item.getSellIn() - 1);
+    private int qualityIncrementBasedOnSellIn(Item item){
+        if(qualityIncreasesAsSellInDateApproaches(item)){
+            if(item.getSellIn() <= FIVE_DAYS){
+                return 3;
+            }else if(item.getSellIn() <= TEN_DAYS){
+                return 2;
+            }else{
+                return 1;
+            }
+        }else{
+            return 1;
         }
+    }
+
+    private boolean qualityIncreasesAsSellInDateApproaches(Item item) {
+        return "Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+    }
+
+    private void decreaseItemQuality(Item item) {
+        if (shouldUpdateItem(item)) {
+            decreaseQualityBy(item, 1);
+            if(isExpired(item)){
+                decreaseQualityBy(item, 1);
+            }
+        }
+    }
+
+    private boolean shouldUpdateItem(Item item) {
+        return !"Sulfuras, Hand of Ragnaros".equals(item.getName());
+    }
+
+    private boolean qualityDecreasesAsItAges(Item item) {
+        return !"Aged Brie".equals(item.getName()) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName());
+    }
+
+    private boolean isExpired(Item item) {
+        return item.getSellIn() < 0;
+    }
+
+    private void increaseQualityBy(Item item, int factor) {
+        item.setQuality(Math.min(item.getQuality() + factor, 50));
+    }
+
+    private void decreaseQualityBy(Item item, int factor) {
+        item.setQuality(Math.max(item.getQuality() - factor, 0));
+    }
+
+    private void updateSellIn(Item item) {
+        item.setSellIn(item.getSellIn() - sellInIncrementForItem(item));
+    }
+
+    private int sellInIncrementForItem(Item item) {
+        return shouldUpdateItem(item) ? 1 : 0;
     }
 
 }
