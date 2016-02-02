@@ -1,4 +1,6 @@
-package com.truizlop.gildedrose;
+package com.truizlop.gildedrose.sellin;
+
+import com.truizlop.gildedrose.Item;
 
 public class DefaultSellInUpdater implements SellInUpdater {
 

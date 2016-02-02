@@ -1,5 +1,8 @@
-package com.truizlop.gildedrose;
+package com.truizlop.gildedrose.sellin;
 
+import com.truizlop.gildedrose.Item;
+import com.truizlop.gildedrose.ItemType;
+import com.truizlop.gildedrose.sellin.DefaultSellInUpdater;
 import org.junit.Before;
 import org.junit.Test;
 
