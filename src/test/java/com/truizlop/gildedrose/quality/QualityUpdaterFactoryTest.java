@@ -47,4 +47,11 @@ public class QualityUpdaterFactoryTest {
         assertThat(qualityUpdater, is(instanceOf(SulfurasQualityUpdater.class)));
     }
 
+    @Test
+    public void shouldProvideConjuredUpdaterForConjuredItem(){
+        QualityUpdater qualityUpdater = qualityUpdaterFactory.makeUpdaterFor(CONJURED);
+
+        assertThat(qualityUpdater, is(instanceOf(ConjuredQualityUpdater.class)));
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.truizlop.gildedrose;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.truizlop.gildedrose.ItemBuilder.anItem;
@@ -139,7 +138,6 @@ public class GildedRoseTest {
         assertThat(backstage.getQuality(), is(0));
     }
 
-    @Ignore("Feature requested")
     @Test
     public void shouldDecreaseConjuredQualityByTwo(){
         Item conjured = anItem().withName(CONJURED).withQuality(10).withSellIn(ANY_SELL_IN).build();

@@ -13,6 +13,8 @@ public class QualityUpdaterFactory {
                 return new BackstageQualityUpdater();
             case SULFURAS:
                 return new SulfurasQualityUpdater();
+            case CONJURED:
+                return new ConjuredQualityUpdater();
             default:
                 return new DefaultQualityUpdater();
         }
