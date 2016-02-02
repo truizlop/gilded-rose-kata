@@ -5,10 +5,7 @@ import com.truizlop.gildedrose.quality.QualityUpdaterFactory;
 import com.truizlop.gildedrose.sellin.SellInUpdater;
 import com.truizlop.gildedrose.sellin.SellInUpdaterFactory;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.truizlop.gildedrose.ItemType.*;
 
 /*
  Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a prominent city ran by
@@ -52,14 +49,8 @@ public class GildedRose {
 
         System.out.println("OMGHAI!");
 
-        List<Item> items = new ArrayList<>();
-        items.add(new Item(DEXTERITY_VEST, 10, 20));
-        items.add(new Item(AGED_BRIE, 2, 0));
-        items.add(new Item(ELIXIR_MONGOOSE, 5, 7));
-        items.add(new Item(SULFURAS, 0, 80));
-        items.add(new Item(BACKSTAGE, 15, 20));
-        items.add(new Item(CONJURED, 3, 6));
-
+        Inventory inventory = new Inventory();
+        List<Item> items = inventory.getItems();
         GildedRose gildedRose = new GildedRose();
         gildedRose.updateQuality(items);
     }
