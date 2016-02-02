@@ -52,7 +52,7 @@ public class GildedRose {
 
         System.out.println("OMGHAI!");
 
-        items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         items.add(new Item(DEXTERITY_VEST, 10, 20));
         items.add(new Item(AGED_BRIE, 2, 0));
         items.add(new Item(ELIXIR_MONGOOSE, 5, 7));
@@ -64,7 +64,6 @@ public class GildedRose {
         gildedRose.updateQuality(items);
     }
 
-    private static List<Item> items;
     private QualityUpdaterFactory qualityUpdaterFactory;
     private SellInUpdaterFactory sellInUpdaterFactory;
 
