@@ -1,5 +1,8 @@
 package com.truizlop.gildedrose;
 
+import com.truizlop.gildedrose.quality.QualityUpdater;
+import com.truizlop.gildedrose.quality.QualityUpdaterFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,12 @@ public class GildedRose {
 
     public static final int FIVE_DAYS = 5;
     public static final int TEN_DAYS = 10;
-    private static List<Item> items = null;
+    private static List<Item> items;
+    private QualityUpdaterFactory qualityUpdaterFactory;
+
+    public GildedRose() {
+        this.qualityUpdaterFactory = new QualityUpdaterFactory();
+    }
 
     public static void main(String[] args) {
 
@@ -75,62 +83,12 @@ public class GildedRose {
     }
 
     private void updateQuality(Item item) {
-        if (qualityDecreasesAsItAges(item)) {
-            decreaseItemQuality(item);
-        } else {
-            increaseItemQuality(item);
-
-        }
-    }
-
-    private boolean qualityDropsToZeroWhenExpired(Item item) {
-        return BACKSTAGE.equals(item.getName());
-    }
-
-    private void increaseItemQuality(Item item) {
-        item.increaseQualityBy(qualityIncrementBasedOnSellIn(item));
-        if(item.isExpired()){
-            if (qualityDropsToZeroWhenExpired(item)) {
-                item.dropQualityToZero();
-            }else{
-                item.increaseQualityBy(1);
-            }
-        }
-    }
-
-    private int qualityIncrementBasedOnSellIn(Item item){
-        if(qualityIncreasesAsSellInDateApproaches(item)){
-            if(item.getSellIn() <= FIVE_DAYS){
-                return 3;
-            }else if(item.getSellIn() <= TEN_DAYS){
-                return 2;
-            }else{
-                return 1;
-            }
-        }else{
-            return 1;
-        }
-    }
-
-    private boolean qualityIncreasesAsSellInDateApproaches(Item item) {
-        return BACKSTAGE.equals(item.getName());
-    }
-
-    private void decreaseItemQuality(Item item) {
-        if (shouldUpdateItem(item)) {
-            item.decreaseQualityBy(1);
-            if(item.isExpired()){
-                item.decreaseQualityBy(1);
-            }
-        }
+        QualityUpdater qualityUpdater = qualityUpdaterFactory.makeUpdaterFor(item.getName());
+        qualityUpdater.update(item);
     }
 
     private boolean shouldUpdateItem(Item item) {
         return !SULFURAS.equals(item.getName());
-    }
-
-    private boolean qualityDecreasesAsItAges(Item item) {
-        return !AGED_BRIE.equals(item.getName()) && !BACKSTAGE.equals(item.getName());
     }
 
     private void updateSellIn(Item item) {
