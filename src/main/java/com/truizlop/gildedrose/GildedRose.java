@@ -2,6 +2,8 @@ package com.truizlop.gildedrose;
 
 import com.truizlop.gildedrose.quality.QualityUpdater;
 import com.truizlop.gildedrose.quality.QualityUpdaterFactory;
+import com.truizlop.gildedrose.sellin.SellInUpdater;
+import com.truizlop.gildedrose.sellin.SellInUpdaterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +48,6 @@ import static com.truizlop.gildedrose.ItemType.*;
  */
 public class GildedRose {
 
-    private static List<Item> items;
-    private QualityUpdaterFactory qualityUpdaterFactory;
-
-    public GildedRose() {
-        this.qualityUpdaterFactory = new QualityUpdaterFactory();
-    }
-
     public static void main(String[] args) {
 
         System.out.println("OMGHAI!");
@@ -67,6 +62,15 @@ public class GildedRose {
 
         GildedRose gildedRose = new GildedRose();
         gildedRose.updateQuality(items);
+    }
+
+    private static List<Item> items;
+    private QualityUpdaterFactory qualityUpdaterFactory;
+    private SellInUpdaterFactory sellInUpdaterFactory;
+
+    public GildedRose() {
+        this.qualityUpdaterFactory = new QualityUpdaterFactory();
+        this.sellInUpdaterFactory = new SellInUpdaterFactory();
     }
 
     public void updateQuality(List<Item> items) {
@@ -85,16 +89,9 @@ public class GildedRose {
         qualityUpdater.update(item);
     }
 
-    private boolean shouldUpdateItem(Item item) {
-        return !SULFURAS.equals(item.getName());
-    }
-
     private void updateSellIn(Item item) {
-        item.setSellIn(item.getSellIn() - sellInIncrementForItem(item));
-    }
-
-    private int sellInIncrementForItem(Item item) {
-        return shouldUpdateItem(item) ? 1 : 0;
+        SellInUpdater sellInUpdater = sellInUpdaterFactory.makeUpdaterFor(item.getName());
+        sellInUpdater.update(item);
     }
 
 }
