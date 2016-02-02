@@ -46,8 +46,6 @@ import static com.truizlop.gildedrose.ItemType.*;
  */
 public class GildedRose {
 
-    public static final int FIVE_DAYS = 5;
-    public static final int TEN_DAYS = 10;
     private static List<Item> items;
     private QualityUpdaterFactory qualityUpdaterFactory;
 
